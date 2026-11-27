@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  ============================================================
+  陪你久久｜照護小幫手　「聯絡我們」頁面（網址：/contact.html）
+  ============================================================
+  【給組員的修改說明】
+  1. 這一頁是獨立的檔案 contact.html，和首頁 index.html 分開。
+  2. 想改文字：用編輯器搜尋該段文字，直接改 HTML 裡的中文即可。
+  3. 還沒有的資料一律標成「【待填：說明】」，搜尋「【待填」就能全部找到。
+  4. 「加入 LINE」網址、GA4 ID 在 <script> 最上方的 CONFIG 區（首頁也有一份，要一起改）。
+  5. 這一頁和首頁 index.html 放在同一層資料夾，圖片都在 images/。
+  ============================================================
+-->
+<title>聯絡我們｜陪你久久｜照護小幫手</title>
+<meta name="description" content="認識陪你久久｜照護小幫手的第四組團隊成員，以及聯絡我們的方式。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="聯絡我們｜陪你久久｜照護小幫手">
+<meta property="og:description" content="認識陪你久久｜照護小幫手的第四組團隊成員。">
+<meta property="og:image" content="images/og.jpg">
+<meta name="theme-color" content="#F8F0E8">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== 色彩與基本設定（取自 Logo；要換色只改這裡） ===== */
+:root{
+  --brand:#688840;      /* 品牌綠：Logo、大圖示、大標題（不用於內文） */
+  --btn:#587830;        /* 按鈕綠：主要按鈕底色，配白字 */
+  --deep:#385020;       /* 深綠：標題與內文 */
+  --orange:#E89830;     /* 橙色：標籤、點綴；上面的字用 --ink，不配白字 */
+  --ink:#2E2A24;
+  --cream:#F8F0E8;      /* 米白：主背景 */
+  --cream-dark:#EADCC4; /* 痛點區：稍暗的米色 */
+  --paper:#FFFDF8;
+  --chat-bg:#E4ECD2;    /* 第 4 屏聊天室底色 */
+  --mine:#BFD694;       /* 聊天泡泡：「你」說的話 */
+  --head-h:68px;
+  --font-title:"Zen Maru Gothic","Noto Sans TC",sans-serif;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--cream);color:var(--deep);
+  font-family:var(--font-body);font-size:18px;line-height:1.75;
+  padding-bottom:84px;overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--font-title);line-height:1.35;margin:0 0 .5em;font-weight:700;text-wrap:balance}
+h2{font-size:clamp(28px,5.4vw,44px);font-weight:900}
+h3{font-size:clamp(20px,3.4vw,24px)}
+p{margin:0 0 1em}
+a{color:var(--deep)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto;position:relative}
+section{scroll-margin-top:calc(var(--head-h) + 12px)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 手寫感的橙色底線（用在重點字） */
+.mark{
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7 C 20 2, 30 11, 50 6 S 90 2, 118 7' fill='none' stroke='%23E89830' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 100%/100% .32em;
+  padding-bottom:.12em;
+}
+
+/* 按鈕：高 ≥ 48px、圓角 24px */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  min-height:54px;padding:0 30px;border-radius:24px;border:2px solid var(--btn);cursor:pointer;
+  background:var(--btn);color:#fff;font:700 18px/1 var(--font-body);text-decoration:none;
+}
+.btn:hover{background:#4a6727}
+.btn-ghost{background:transparent;color:var(--deep);border-color:var(--deep)}
+.btn-ghost:hover{background:rgba(56,80,32,.08)}
+.tag{
+  display:inline-block;background:var(--orange);color:var(--ink);
+  font-weight:700;font-size:16px;line-height:1;padding:8px 14px;border-radius:999px;
+}
+
+/* 目前全站不使用動態效果（淡入、跳動、位移都已關閉）。
+   之後想打開淡入，只要把 .reveal 改回 opacity:0 並加上 transition 即可。 */
+.reveal{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+
+/* ===== 頁首（第一版樣式）：橫式 Logo + 選單 + 加入 LINE ===== */
+.site-header{
+  position:sticky;top:0;z-index:50;height:var(--head-h);
+  background:rgba(248,240,232,.96);border-bottom:1px solid rgba(56,80,32,.12);
+}
+.site-header .wrap{display:flex;align-items:center;height:100%;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--deep);font:700 19px/1.2 var(--font-title);margin-right:auto}
+.logo img{width:46px;height:46px}
+.nav{display:none}
+.nav a{text-decoration:none;font-weight:500;padding:10px 12px;border-radius:12px}
+.nav a:hover,.nav a.active{background:rgba(104,136,64,.16)}
+.header-cta{display:none;min-height:48px;padding:0 22px}
+.menu-btn{
+  width:48px;height:48px;border-radius:14px;border:2px solid var(--deep);background:transparent;cursor:pointer;
+  display:grid;place-items:center;color:var(--deep);
+}
+.menu-btn svg{width:24px;height:24px}
+.mobile-nav{
+  display:none;position:absolute;left:0;right:0;top:var(--head-h);background:var(--cream);
+  border-bottom:1px solid rgba(56,80,32,.2);padding:8px 20px 20px;
+}
+.mobile-nav.open{display:block}
+.mobile-nav a{display:block;padding:14px 4px;font-weight:500;text-decoration:none;border-bottom:1px solid rgba(56,80,32,.12)}
+@media (min-width:1024px){
+  .nav{display:flex;gap:4px}
+  .header-cta{display:inline-flex}
+  .menu-btn,.mobile-nav{display:none!important}
+}
+
+/* 手機版底部固定「加入 LINE」 */
+.sticky-line{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 20px calc(12px + env(safe-area-inset-bottom));
+  background:rgba(248,240,232,.97);border-top:2px solid var(--deep);
+}
+.sticky-line .btn{width:100%}
+@media (min-width:768px){.sticky-line{display:none}body{padding-bottom:0}}
+
+/* 區塊之間的波浪邊（放在下一個區塊的最上方） */
+.wave{position:absolute;left:0;width:100%;height:44px;top:-43px;display:block;pointer-events:none}
+
+/* ===== 聯絡我們（#contact）— 組員介紹：深綠底，頭像排成一排 ===== */
+.contact{background:var(--deep);color:#F8F0E8;padding:56px 0 64px}
+.contact h2,.contact h3{color:#F8F0E8}
+.contact-head{max-width:720px;margin-bottom:22px}
+.contact-head .tag{margin-bottom:12px}
+.contact-head h2{margin-bottom:.2em}
+.contact .sub-title{font-size:clamp(20px,3vw,26px);color:var(--orange);margin:.3em 0 .3em}
+.contact-head p{margin:0}
+.team-list{
+  display:flex;gap:12px;overflow-x:auto;margin:0 -20px;padding:6px 20px 12px;scroll-padding-inline:20px;
+}
+.member{
+  flex:0 0 108px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px 10px;cursor:pointer;
+  border:2px solid rgba(248,240,232,.4);border-radius:22px;background:rgba(255,255,255,.07);color:#F8F0E8;
+  font:700 17px/1.2 var(--font-title);
+}
+.member img{width:76px;height:92px;object-fit:contain;object-position:center bottom}
+.member:hover{background:rgba(255,255,255,.16)}
+.member[aria-selected="true"]{background:#F8F0E8;color:var(--deep);border-color:var(--orange);border-width:3px;padding:11px 7px 9px}
+.team-panels{margin-top:10px}
+.member-card{background:#F8F0E8;color:var(--deep);border-radius:28px;padding:20px 22px 22px;display:grid;gap:12px}
+.member-card[hidden]{display:none}
+.member-card .big{display:none}
+.member-card h4{font:900 clamp(24px,4vw,30px)/1.3 var(--font-title);margin:0 0 .5em;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.member-card .en{font:700 16px var(--font-body);background:var(--orange);color:var(--ink);border-radius:999px;padding:4px 12px}
+.member-card .lab{display:inline-block;font:700 14px/1 var(--font-body);background:var(--deep);color:#fff;border-radius:999px;padding:6px 12px;margin:6px 0 8px}
+.member-card p{margin:0 0 .6em}
+.member-card ul{margin:0;padding-left:1.2em}
+.member-card li{margin-bottom:.3em}
+.todo{background:#FFE9B8;color:var(--deep);border-radius:8px;padding:2px 8px;font-weight:500}
+.member-card .todo{display:inline-block}
+@media (min-width:768px){
+  .contact{padding:80px 0 88px}
+  .member{flex:1 0 108px}
+  .member-card{grid-template-columns:200px 1fr;gap:28px;padding:28px 32px;align-items:center}
+  .member-card .big{display:block;width:100%;height:auto;max-height:260px;object-fit:contain}
+}
+@media (min-width:1000px){
+  .team-list{margin:0;padding:6px 0 14px;gap:16px}
+  .member{flex:1 1 0;padding:14px 10px 12px}
+  .member img{width:96px;height:116px}
+}
+</style>
+</head>
+
+<body>
+
+<!-- ===== 頁首：橫式 Logo + 選單 + 加入 LINE（和首頁相同，連結指向首頁 index.html） ===== -->
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="陪你久久｜照護小幫手，回到首頁">
+      <img src="images/logo-icon.webp" width="46" height="46" alt="">
+      <span>陪你久久｜照護小幫手</span>
+    </a>
+    <nav class="nav" aria-label="主選單">
+      <a href="index.html#story">我們的故事</a>
+      <a href="index.html#features">功能介紹</a>
+      <a href="contact.html" class="active" aria-current="page">聯絡我們</a>
+    </nav>
+    <a class="btn header-cta js-line" data-loc="header" href="#">加入 LINE</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="開啟選單">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="手機選單">
+    <a href="index.html#story">我們的故事</a>
+    <a href="index.html#features">功能介紹</a>
+    <a href="contact.html" aria-current="page">聯絡我們</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ===== 聯絡我們（#contact）— 第 1 部分：組員介紹；表單等其他部分之後再接在下面 ===== -->
+<section class="contact" id="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="contact-head">
+      <span class="tag">第四組</span>
+      <h2 id="contact-title">聯絡我們</h2>
+      <p>我們是第四組，一個學生團隊。點選頭像，認識每一位組員。</p>
+    </div>
+
+    <!-- 組員（分頁）：沒有 JavaScript 時，5 位組員的介紹會全部展開 -->
+    <div class="team" id="team">
+      <div class="team-list" role="tablist" aria-label="五位組員" aria-orientation="horizontal">
+        <button class="member" role="tab" id="m-aiden" aria-controls="p-aiden" aria-selected="true">
+          <img src="images/team-aiden.webp" width="360" height="424" alt="汪書賢（Aiden）的插畫頭像：短捲髮、穿米白上衣的男生"><span>Aiden</span></button>
+        <button class="member" role="tab" id="m-kei" aria-controls="p-kei" aria-selected="false" tabindex="-1">
+          <img src="images/team-kei.webp" width="360" height="515" alt="林珮如（Kei）的插畫頭像：綁丸子頭、戴圓框眼鏡、穿連帽外套的女生"><span>Kei</span></button>
+        <button class="member" role="tab" id="m-sophie" aria-controls="p-sophie" aria-selected="false" tabindex="-1">
+          <img src="images/team-sophie.webp" width="360" height="473" alt="劉芳妤（Sophie）的插畫頭像：長髮、戴圓框眼鏡、穿米色外套的女生"><span>Sophie</span></button>
+        <button class="member" role="tab" id="m-ray" aria-controls="p-ray" aria-selected="false" tabindex="-1">
+          <img src="images/team-ray.webp" width="360" height="493" alt="Ray 的插畫頭像：綁高馬尾、戴圓框眼鏡、穿吊帶褲的女生"><span>Ray</span></button>
+        <button class="member" role="tab" id="m-andy" aria-controls="p-andy" aria-selected="false" tabindex="-1">
+          <img src="images/team-andy.webp" width="360" height="478" alt="鄭名崴（Andy）的插畫頭像：微捲短髮、穿牛仔外套的男生"><span>Andy</span></button>
+      </div>
+
+      <div class="team-panels">
+
+        <div class="member-card" role="tabpanel" id="p-aiden" aria-labelledby="m-aiden">
+          <img class="big" src="images/team-aiden.webp" width="360" height="424" alt="" loading="lazy">
+          <div class="info">
+            <h4>汪書賢<span class="en">Aiden Wang</span></h4>
+            <span class="lab">專案負責範圍</span>
+            <p>負責健康紀錄模組的規格撰寫、系統實作與部署。</p>
+            <span class="lab">個人學經歷與專長</span>
+            <ul>
+              <li>企業管理學系學士</li>
+              <li>專案管理與整合行銷經驗，曾任公關資深專員、營運長特助、數位廣告業務</li>
+              <li>擅長需求拆解與規格撰寫、跨部門專案控管、AI 流程自動化</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="member-card" role="tabpanel" id="p-kei" aria-labelledby="m-kei">
+          <img class="big" src="images/team-kei.webp" width="360" height="515" alt="" loading="lazy">
+          <div class="info">
+            <h4>林珮如<span class="en">Kei Lin</span></h4>
+            <span class="lab">專案負責範圍</span>
+            <p>選單切換、LINE 身分驗證功能的概念驗證；圖文選單規劃、視覺設計、規劃情境插畫。</p>
+            <span class="lab">個人學經歷與專長</span>
+            <ul>
+              <li>媒體設計學系學士</li>
+              <li>曾任行銷專案副理、產品中文化專案管理</li>
+              <li>擅長行銷企劃、專案管理、需求梳理與跨部門協作</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="member-card" role="tabpanel" id="p-sophie" aria-labelledby="m-sophie">
+          <img class="big" src="images/team-sophie.webp" width="360" height="473" alt="" loading="lazy">
+          <div class="info">
+            <h4>劉芳妤<span class="en">Sophie Liu</span></h4>
+            <span class="lab">專案負責範圍</span>
+            <p>負責需求分析、文件撰寫、網站製作。</p>
+            <span class="lab">個人學經歷與專長</span>
+            <ul>
+              <li>資訊管理學系學士</li>
+              <li>曾任產品管理師、軟體工程師</li>
+              <li>擅長需求分析、專案管理、數據追蹤</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="member-card" role="tabpanel" id="p-ray" aria-labelledby="m-ray">
+          <img class="big" src="images/team-ray.webp" width="360" height="493" alt="" loading="lazy">
+          <div class="info">
+            <h4><span class="todo">【待填：中文姓名】</span><span class="en">Ray</span></h4>
+            <span class="lab">專案負責範圍</span>
+            <p><span class="todo">【待填：Ray 的專案負責範圍】</span></p>
+            <span class="lab">個人學經歷與專長</span>
+            <ul>
+              <li><span class="todo">【待填：Ray 的學經歷與專長】</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="member-card" role="tabpanel" id="p-andy" aria-labelledby="m-andy">
+          <img class="big" src="images/team-andy.webp" width="360" height="478" alt="" loading="lazy">
+          <div class="info">
+            <h4>鄭名崴<span class="en">Andy Cheng</span></h4>
+            <span class="lab">專案負責範圍</span>
+            <p>回診紀錄和用藥打卡的功能，串接所有 n8n 流程。</p>
+            <span class="lab">個人學經歷與專長</span>
+            <ul>
+              <li>電子系學士</li>
+              <li>曾任製程助理工程師，負責超音波壓合製程的參數調整。</li>
+              <li>擅長製程參數調整、視覺展演</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 其餘部分（聯絡表單等）：確認內容後接續製作 -->
+
+</main>
+
+
+<!-- 手機版底部固定按鈕 -->
+<div class="sticky-line"><a class="btn js-line" data-loc="sticky" href="#">加入 LINE</a></div>
+
+<!-- 電腦版「加入 LINE」QR Code 彈窗 -->
+<dialog id="qr-dialog" aria-labelledby="qr-title" style="border:2px solid var(--deep);border-radius:28px;padding:28px;max-width:360px;text-align:center;color:var(--deep);background:#fff">
+  <h2 id="qr-title" style="font-size:24px">用手機掃描加入</h2>
+  <img src="images/line-qr.png" width="180" height="180" style="margin:0 auto 12px;width:200px;height:200px;image-rendering:pixelated" alt="陪你久久 LINE 官方帳號的加好友 QR Code">
+  <p style="font-size:16px">打開 LINE，掃描上方 QR Code 就能加好友。</p>
+  <button class="btn" type="button" id="qr-close">關閉</button>
+</dialog>
+
+<!-- Cookie 同意：按「同意」後才載入 GA4 -->
+<div id="cookie" role="region" aria-label="Cookie 同意" hidden
+     style="position:fixed;left:12px;right:12px;bottom:96px;z-index:60;background:#fff;border:2px solid var(--deep);border-radius:24px;padding:16px 20px;max-width:560px;margin-inline:auto;font-size:16px;line-height:1.6">
+  <p style="margin:0 0 12px">我們使用 Cookie 統計匿名的瀏覽人數，幫助網站變得更好。你可以選擇是否同意。</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn" type="button" id="cookie-yes" style="min-height:48px;padding:0 22px">同意</button>
+    <button class="btn btn-ghost" type="button" id="cookie-no" style="min-height:48px;padding:0 22px">不同意</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   設定區（要換網址、ID 只改這裡）
+   ============================================================ */
+var CONFIG = {
+  LINE_URL: "https://lin.ee/pgEDr9J",   // LINE 加好友網址（短網址不可加參數）
+  GA4_ID: "【待填：GA4 ID】"              // 填入後，使用者按「同意」才會載入 GA4
+};
+
+/* ---------- GA4：同意後才載入 ---------- */
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+var gaReady = false;
+function loadGA(){
+  if (gaReady || CONFIG.GA4_ID.indexOf("待填") > -1) return;
+  gaReady = true;
+  var s = document.createElement("script");
+  s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + CONFIG.GA4_ID;
+  document.head.appendChild(s);
+  gtag("js", new Date()); gtag("config", CONFIG.GA4_ID);
+}
+function track(name, params){ if (gaReady) gtag("event", name, params || {}); }
+
+/* ---------- Cookie 同意 ---------- */
+(function(){
+  var box = document.getElementById("cookie"), KEY = "pnjj_cookie";
+  var v = null; try { v = localStorage.getItem(KEY); } catch(e){}
+  if (v === "yes") loadGA(); else if (v !== "no") box.hidden = false;
+  function set(val){ try { localStorage.setItem(KEY, val); } catch(e){} box.hidden = true; if (val === "yes") loadGA(); }
+  document.getElementById("cookie-yes").onclick = function(){ set("yes"); };
+  document.getElementById("cookie-no").onclick  = function(){ set("no"); };
+})();
+
+/* ---------- 加入 LINE：手機直接開、電腦彈出 QR Code ---------- */
+(function(){
+  var dlg = document.getElementById("qr-dialog");
+  var isDesktop = function(){ return window.matchMedia("(min-width:768px)").matches && window.matchMedia("(pointer:fine)").matches; };
+  document.querySelectorAll(".js-line").forEach(function(a){
+    a.href = CONFIG.LINE_URL; a.target = "_blank"; a.rel = "noopener";
+    a.addEventListener("click", function(e){
+      track("line_add_click", { location: a.getAttribute("data-loc") });
+      if (isDesktop() && dlg.showModal){ e.preventDefault(); dlg.showModal(); }
+    });
+  });
+  document.getElementById("qr-close").onclick = function(){ dlg.close(); };
+  dlg.addEventListener("click", function(e){ if (e.target === dlg) dlg.close(); });
+})();
+
+/* ---------- 手機選單收合 ---------- */
+(function(){
+  var btn = document.querySelector(".menu-btn"), nav = document.getElementById("mobile-nav");
+  btn.addEventListener("click", function(){
+    var open = nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open); btn.setAttribute("aria-label", open ? "關閉選單" : "開啟選單");
+  });
+  nav.addEventListener("click", function(e){ if (e.target.tagName === "A"){ nav.classList.remove("open"); btn.setAttribute("aria-expanded","false"); } });
+})();
+
+/* ---------- 聯絡我們：組員分頁（點選、方向鍵切換） ---------- */
+(function(){
+  var box = document.getElementById("team");
+  var tabs = [].slice.call(box.querySelectorAll(".member"));
+  var panels = [].slice.call(box.querySelectorAll(".member-card"));
+  function show(i, focus){
+    tabs.forEach(function(t, k){
+      var on = k === i;
+      t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1;
+      panels[k].hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener("click", function(){ show(i); });
+    t.addEventListener("keydown", function(e){
+      var n = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") n = (i + 1) % tabs.length;
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") n = (i + tabs.length - 1) % tabs.length;
+      else if (e.key === "Home") n = 0; else if (e.key === "End") n = tabs.length - 1;
+      if (n !== null){ e.preventDefault(); show(n, true); }
+    });
+  });
+  show(0);
+})();
+
+</script>
+</body>
+</html>

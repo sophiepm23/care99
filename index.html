@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+  ============================================================
+  陪你久久｜照護小幫手　官方網站（單檔版）— 預覽版：第 1～4 屏（第二版設計）
+  ============================================================
+  【給組員的修改說明】
+  1. 想改文字：用編輯器搜尋該段文字，直接改 HTML 裡的中文即可。
+  2. 每個區塊上方都有「===== 第 N 屏：名稱 =====」這樣的註解，用來快速找位置。
+  3. 還沒有的資料一律標成「【待填：說明】」，搜尋「【待填」就能全部找到。
+  4. 「加入 LINE」網址、GA4 ID 集中在 <script> 最上方的 CONFIG 區。
+  ============================================================
+-->
+<title>陪你久久｜照護小幫手：全家一起在 LINE 記錄自己和家人的吃藥、血壓與回診</title>
+<meta name="description" content="不用裝新 App，在 LINE 上記錄自己和家人的吃藥、血壓與回診，全家一起看、一起收提醒。陪你久久｜照護小幫手，第四組專案。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="陪你久久｜照護小幫手">
+<meta property="og:description" content="不用裝新 App，在 LINE 上記錄自己和家人的吃藥、血壓與回診，全家一起看。">
+<meta property="og:image" content="images/og.jpg">
+<meta name="theme-color" content="#F8F0E8">
+<!-- 網站圖示（Favorite Icon）：用 Logo 圖示；favicon-32 給分頁、favicon 給較高解析度、apple-touch-icon 給 iPhone 加到主畫面 -->
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="64x64" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== 色彩與基本設定（取自 Logo；要換色只改這裡） ===== */
+:root{
+  --brand:#688840;      /* 品牌綠：Logo、大圖示、大標題（不用於內文） */
+  --btn:#587830;        /* 按鈕綠：主要按鈕底色，配白字 */
+  --deep:#385020;       /* 深綠：標題與內文 */
+  --orange:#E89830;     /* 橙色：標籤、點綴；上面的字用 --ink，不配白字 */
+  --ink:#2E2A24;
+  --cream:#F8F0E8;      /* 米白：主背景 */
+  --cream-dark:#EADCC4; /* 痛點區：稍暗的米色 */
+  --paper:#FFFDF8;
+  --chat-bg:#E4ECD2;    /* 第 4 屏聊天室底色 */
+  --mine:#BFD694;       /* 聊天泡泡：「你」說的話 */
+  --head-h:68px;
+  --font-title:"Zen Maru Gothic","Noto Sans TC",sans-serif;
+  --font-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--cream);color:var(--deep);
+  font-family:var(--font-body);font-size:18px;line-height:1.75;
+  padding-bottom:84px;overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+h1,h2,h3{font-family:var(--font-title);line-height:1.35;margin:0 0 .5em;font-weight:700;text-wrap:balance}
+h2{font-size:clamp(28px,5.4vw,44px);font-weight:900}
+h3{font-size:clamp(20px,3.4vw,24px)}
+p{margin:0 0 1em}
+a{color:var(--deep)}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px;border-radius:8px}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto;position:relative}
+section{scroll-margin-top:calc(var(--head-h) + 12px)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* 手寫感的橙色底線（用在重點字） */
+.mark{
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'%3E%3Cpath d='M2 7 C 20 2, 30 11, 50 6 S 90 2, 118 7' fill='none' stroke='%23E89830' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 100%/100% .32em;
+  padding-bottom:.12em;
+}
+
+/* 按鈕：高 ≥ 48px、圓角 24px */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5em;
+  min-height:54px;padding:0 30px;border-radius:24px;border:2px solid var(--btn);cursor:pointer;
+  background:var(--btn);color:#fff;font:700 18px/1 var(--font-body);text-decoration:none;
+}
+.btn:hover{background:#4a6727}
+.btn-ghost{background:transparent;color:var(--deep);border-color:var(--deep)}
+.btn-ghost:hover{background:rgba(56,80,32,.08)}
+.tag{
+  display:inline-block;background:var(--orange);color:var(--ink);
+  font-weight:700;font-size:16px;line-height:1;padding:8px 14px;border-radius:999px;
+}
+
+/* 目前全站不使用動態效果（淡入、跳動、位移都已關閉）。
+   之後想打開淡入，只要把 .reveal 改回 opacity:0 並加上 transition 即可。 */
+.reveal{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+}
+
+/* ===== 頁首（第一版樣式）：橫式 Logo + 選單 + 加入 LINE ===== */
+.site-header{
+  position:sticky;top:0;z-index:50;height:var(--head-h);
+  background:rgba(248,240,232,.96);border-bottom:1px solid rgba(56,80,32,.12);
+}
+.site-header .wrap{display:flex;align-items:center;height:100%;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--deep);font:700 19px/1.2 var(--font-title);margin-right:auto}
+.logo img{width:46px;height:46px}
+.nav{display:none}
+.nav a{text-decoration:none;font-weight:500;padding:10px 12px;border-radius:12px}
+.nav a:hover,.nav a.active{background:rgba(104,136,64,.16)}
+.header-cta{display:none;min-height:48px;padding:0 22px}
+.menu-btn{
+  width:48px;height:48px;border-radius:14px;border:2px solid var(--deep);background:transparent;cursor:pointer;
+  display:grid;place-items:center;color:var(--deep);
+}
+.menu-btn svg{width:24px;height:24px}
+.mobile-nav{
+  display:none;position:absolute;left:0;right:0;top:var(--head-h);background:var(--cream);
+  border-bottom:1px solid rgba(56,80,32,.2);padding:8px 20px 20px;
+}
+.mobile-nav.open{display:block}
+.mobile-nav a{display:block;padding:14px 4px;font-weight:500;text-decoration:none;border-bottom:1px solid rgba(56,80,32,.12)}
+@media (min-width:1024px){
+  .nav{display:flex;gap:4px}
+  .header-cta{display:inline-flex}
+  .menu-btn,.mobile-nav{display:none!important}
+}
+
+/* 手機版底部固定「加入 LINE」 */
+.sticky-line{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 20px calc(12px + env(safe-area-inset-bottom));
+  background:rgba(248,240,232,.97);border-top:2px solid var(--deep);
+}
+.sticky-line .btn{width:100%}
+@media (min-width:768px){.sticky-line{display:none}body{padding-bottom:0}}
+
+/* 區塊之間的波浪邊（放在下一個區塊的最上方） */
+.wave{position:absolute;left:0;width:100%;height:44px;top:-43px;display:block;pointer-events:none}
+
+/* ===== 第 1 屏：開場 — 一通電話 ===== */
+.hero{position:relative;padding:34px 0 70px;overflow-x:clip}
+.hero-grid{display:grid;gap:34px;align-items:center}
+.chat-open{display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.bubble{
+  position:relative;font-family:var(--font-title);font-weight:700;color:var(--deep);
+  border-radius:30px 30px 30px 8px;background:var(--paper);border:2px solid var(--deep);padding:20px 26px;
+  max-width:100%;
+}
+.bubble h1{margin:0;font-size:clamp(27px,6vw,46px);line-height:1.3}
+.bubble.reply{
+  align-self:flex-end;background:var(--mine);border-radius:30px 30px 8px 30px;
+  font-size:clamp(21px,4vw,26px);padding:12px 24px;
+}
+.hero .sub{font-size:clamp(18px,2.6vw,21px);max-width:34em}
+.hero .line2{font-family:var(--font-title);font-weight:700;font-size:clamp(21px,3.4vw,28px);color:var(--brand);margin:1.1em 0 1.4em;line-height:1.5}
+.hero-art{position:relative;padding:4% 0}
+.hero-art .blob{
+  position:absolute;inset:0 -3% 0 -3%;background:var(--cream-dark);
+  border-radius:58% 42% 55% 45% / 46% 56% 44% 54%;transform:rotate(-4deg);
+}
+.hero-art img.main{position:relative;z-index:1;width:100%}
+.deco-hang{position:absolute;z-index:2;top:-40px;left:42%;width:84px}
+.deco-mug{position:absolute;z-index:2;left:-2%;bottom:-4%;width:76px;transform:rotate(-6deg)}
+@media (min-width:768px){
+  .hero{padding:56px 0 100px}
+  .hero-grid{grid-template-columns:1.05fr 1fr;gap:20px}
+  .hero-art{margin-right:-4%}
+  .deco-hang{width:104px;top:-44px}
+  .deco-mug{width:96px}
+}
+
+/* ===== 第 2 屏：痛點 — 散落在桌上的日常 ===== */
+.pain{
+  position:relative;background-color:var(--cream-dark);padding:84px 0 96px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='3' cy='3' r='1.4' fill='%23385020' fill-opacity='.14'/%3E%3C/svg%3E");
+}
+.pain-head{max-width:720px;margin-bottom:46px}
+.pain-head .tag{margin-bottom:16px;transform:rotate(-2deg)}
+/* 手機：改成左右滑動（一次看一張、露出下一張），避免頁面太長 */
+.pain-board{
+  display:flex;gap:18px;margin:0 -20px;padding:26px 20px 14px;
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:20px;-webkit-overflow-scrolling:touch;
+}
+.pain-board .polaroid{flex:0 0 300px;scroll-snap-align:start}
+.pain-board:focus-visible{outline-offset:-3px}
+.swipe-hint{margin:0 0 -6px;font-size:15px;font-weight:700;color:var(--deep)}
+@media (max-width:767px){
+  .pain{padding:44px 0 34px}
+  .pain-head{margin-bottom:12px}
+  .pain-head .tag{margin-bottom:10px;font-size:15px;padding:7px 12px}
+  .pain-head h2{font-size:23px;margin-bottom:.3em}
+  .swipe-hint{font-size:14px;margin:0}
+  .pain-board{gap:14px;padding:22px 20px 8px}
+  .pain-board .polaroid{flex:0 0 66%}
+  .polaroid{padding:8px 8px 12px;border-radius:12px;--r:0deg}
+  .polaroid::before{top:-12px;width:70px;height:22px;margin-left:-35px}
+  .polaroid .pic{aspect-ratio:16/10}
+  .polaroid figcaption{padding:10px 4px 0;min-height:104px}
+  .polaroid .tag{font-size:14px;padding:6px 10px;margin-bottom:8px}
+  .polaroid blockquote{font-size:17px;line-height:1.45}
+  .pain-note{margin-top:6px;font-size:14px;line-height:1.5}
+}
+.polaroid{
+  position:relative;margin:0;background:var(--paper);padding:12px 12px 24px;
+  border:2px solid var(--deep);border-radius:14px;transform:rotate(var(--r,0deg));
+}
+.polaroid::before{ /* 膠帶 */
+  content:"";position:absolute;top:-15px;left:50%;width:92px;height:28px;margin-left:-46px;
+  background:rgba(232,152,48,.88);border-radius:3px;transform:rotate(var(--tr,-3deg));
+}
+.polaroid .pic{aspect-ratio:4/3;border-radius:8px;overflow:hidden;background:#F2E5CF}
+.polaroid .pic>img,.polaroid .pic picture img{width:100%;height:100%;object-fit:cover}
+.polaroid .pic picture{display:block;width:100%;height:100%}
+.polaroid figcaption{padding:18px 8px 0}
+.polaroid .tag{font-size:15px;padding:7px 12px;margin-bottom:12px;background:var(--deep);color:#fff}
+.polaroid blockquote{margin:0;font-family:var(--font-title);font-weight:700;font-size:clamp(20px,3.2vw,24px);line-height:1.5}
+.pain-note{margin-top:24px;font-size:16px;opacity:.9;max-width:36em}
+/* 平板：5 張一排，左右滑動 */
+@media (min-width:768px){
+  .pain{padding:64px 0 56px}
+  .pain-head{margin-bottom:20px}
+}
+/* 寬螢幕（≥1180px）：5 張並排，不需要滑動 */
+@media (min-width:1180px){
+  .swipe-hint{display:none}
+  .pain-board{margin:0;padding:22px 0 8px;overflow:visible;gap:16px;scroll-snap-type:none}
+  .pain-board .polaroid{flex:1 1 0;min-width:0}
+  .polaroid{padding:10px 10px 16px}
+  .polaroid figcaption{padding:14px 4px 0}
+  .polaroid .tag{font-size:14px;padding:6px 10px;margin-bottom:10px}
+  .polaroid blockquote{font-size:17px;line-height:1.5}
+}
+
+
+/* ===== 第 3 屏：源起（#story）— 一封寫給你的信 ===== */
+.story{position:relative;padding:92px 0 84px;background:var(--cream)}
+.story-grid{display:grid;gap:40px;align-items:start}
+.arch-wrap{position:relative;max-width:430px;justify-self:center;width:100%}
+.arch{
+  aspect-ratio:1/1;border:2px solid var(--deep);border-radius:48px 48px 48px 120px;overflow:hidden;background:var(--paper);transform:rotate(-2deg);
+}
+.arch img{width:100%;height:100%;object-fit:cover}
+.sticker{
+  position:absolute;right:-10px;bottom:34px;width:112px;height:112px;border-radius:50%;
+  background:var(--orange);color:var(--ink);display:grid;place-items:center;text-align:center;
+  font:900 19px/1.25 var(--font-title);transform:rotate(10deg);border:2px solid var(--ink);
+}
+.deco-pot{position:absolute;left:-26px;bottom:-14px;width:96px;z-index:2;transform:rotate(-4deg)}
+.letter .tag{margin-bottom:14px}
+.letter blockquote{
+  position:relative;margin:0 0 1.4em;font-size:clamp(18px,2.4vw,20px);line-height:1.95;padding-left:0;
+}
+.letter blockquote::before{
+  content:"\201C";position:absolute;left:-2px;top:-6px;font:900 72px/1 var(--font-title);color:var(--orange);opacity:.9;pointer-events:none;
+}
+.letter blockquote{padding-top:44px}
+.letter details summary{
+  list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:.5em;min-height:54px;padding:0 28px;
+  border-radius:24px;background:var(--btn);color:#fff;font-weight:700;border:2px solid var(--btn);
+}
+.letter details summary::-webkit-details-marker{display:none}
+.letter details summary::after{content:"＋";font-size:20px}
+.letter details[open] summary{background:transparent;color:var(--deep);border-color:var(--deep)}
+.letter details[open] summary::after{content:"－"}
+.chapters{margin-top:34px;display:grid;gap:30px;border-left:3px dashed var(--brand);padding-left:22px}
+.chap{position:relative}
+.chap::before{content:"";position:absolute;left:-31px;top:12px;width:16px;height:16px;border-radius:50%;background:var(--orange);border:2px solid var(--deep)}
+.chap .num{font:900 42px/1 var(--font-title);color:transparent;-webkit-text-stroke:2px var(--brand);display:block;margin-bottom:4px}
+.chap h3{margin-bottom:.3em}
+.chap ul{margin:0;padding-left:1.2em}
+.chap li{margin-bottom:.3em}
+.chap .big{font-family:var(--font-title);font-weight:900;font-size:clamp(26px,5vw,34px);color:var(--brand);line-height:1.4;margin:.2em 0 0}
+.todo{background:#FFE9B8;border-radius:8px;padding:2px 8px;font-weight:500}
+.soon{margin-left:.3em;font-size:14px;padding:5px 10px}
+@media (min-width:768px){
+  .story-grid{max-width:820px}
+}
+
+/* ===== 第 4 屏：解法 — 點選卡關點，一次只看一個解法（避免頁面太長） ===== */
+.solve{background:#FCF8F2;padding:64px 0 72px}
+.section-head{max-width:760px;margin-bottom:26px}
+.section-head .kicker{margin-bottom:14px}
+.solve-tabs{display:grid;gap:14px}
+.tablist{display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:4px 20px 8px;scroll-padding-inline:20px}
+.tab{
+  flex:none;min-height:48px;padding:0 18px;border-radius:24px;border:2px solid var(--deep);
+  background:var(--cream-dark);color:var(--deep);font:700 16px/1.2 var(--font-body);cursor:pointer;white-space:nowrap;
+}
+.tab:hover{background:#E2D2B5}
+.tab[aria-selected="true"]{background:var(--deep);color:#fff}
+.panel .was{background:var(--cream-dark);border-radius:20px;padding:12px 18px;margin:0 0 12px;font-weight:500}
+.panel .was span{font-size:14px;font-weight:700;display:block;opacity:.85;line-height:1.4}
+.panel .now{background:#fff;border:2px solid #DCE8C8;border-radius:24px;overflow:hidden;display:grid}
+.panel figure{margin:0;background:#F6F0E4;aspect-ratio:16/10;overflow:hidden}
+.panel figure>img{width:100%;height:100%;object-fit:cover}
+.panel figure.contain>img{object-fit:contain;padding:8px}
+.panel .txt{padding:16px 20px 20px}
+.panel h3{font-size:21px;margin-bottom:.3em}
+.panel p{margin:0}
+.compose-orders{display:flex;align-items:center;justify-content:center;gap:6%;height:100%;padding:14px}
+.compose-orders img{width:42%;height:auto!important;object-fit:contain}
+@media (min-width:768px){
+  .solve{padding:80px 0 88px}
+  .solve-tabs{grid-template-columns:300px 1fr;gap:28px;align-items:start}
+  .tablist{flex-direction:column;overflow:visible;margin:0;padding:0}
+  .tab{white-space:normal;text-align:left;border-radius:20px;padding:14px 18px;font-size:17px}
+  .panel .now{grid-template-columns:1fr 1.1fr}
+  .panel figure{aspect-ratio:auto;min-height:300px}
+  .panel .txt{align-self:center;padding:20px 24px}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ===== 頁首：膠囊型 Logo + 選單 + 加入 LINE ===== -->
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="陪你久久｜照護小幫手，回到頁面最上方">
+      <img src="images/logo-icon.webp" width="46" height="46" alt="">
+      <span>陪你久久｜照護小幫手</span>
+    </a>
+    <nav class="nav" aria-label="主選單">
+      <a href="#story">我們的故事</a>
+      <a href="#features">功能介紹</a>
+      <a href="contact.html">聯絡我們</a>
+    </nav>
+    <a class="btn header-cta js-line" data-loc="header" href="#">加入 LINE</a>
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="開啟選單">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+  <nav class="mobile-nav" id="mobile-nav" aria-label="手機選單">
+    <a href="#story">我們的故事</a>
+    <a href="#features">功能介紹</a>
+    <a href="contact.html">聯絡我們</a>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- ===== 第 1 屏：開場（訪客的問題：這跟我有關嗎？）— 用一通電話開場 ===== -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="chat-open">
+        <div class="bubble reveal pop in"><h1 id="hero-title">「今天藥吃了嗎？血壓量了嗎？」</h1></div>
+        <div class="bubble reply reveal pop in" style="--d:.5s;--o:right bottom" aria-hidden="true">有啦<span>.</span><span>.</span><span>.</span></div>
+      </div>
+      <p class="sub">不管是問家人，還是問自己，答案常常都是「有啦」，其實自己也記不清楚。</p>
+      <p class="line2">陪你久久，讓這句關心不再只是<span class="mark">擔心</span>。</p>
+      <a class="btn js-line" data-loc="hero" href="#">加入 LINE，全家一起照顧</a>
+    </div>
+    <div class="hero-art">
+      <div class="blob" aria-hidden="true"></div>
+      <img class="main" src="images/hero.webp" width="1000" height="750" fetchpriority="high"
+           alt="爺爺、爸爸、媽媽和孫女各自拿著手機，透過 LINE 裡的陪你久久連在一起，彼此分享回診日期與回診單">
+      <img class="deco-hang" src="images/deco-hanging-plant.webp" width="194" height="223" alt="">
+      <img class="deco-mug" src="images/deco-mug.webp" width="300" height="288" alt="">
+    </div>
+  </div>
+</section>
+
+<!-- ===== 第 2 屏：你是不是也這樣（痛點）— 散落在桌上的日常 ===== -->
+<section class="pain" id="painpoint" aria-labelledby="pain-title">
+  <svg class="wave" viewBox="0 0 1440 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 44 V22 C 220 0, 420 44, 720 20 S 1200 4, 1440 24 V44 Z" fill="#EADCC4"/></svg>
+  <div class="wrap">
+    <div class="pain-head reveal">
+      <span class="tag">你是不是也這樣</span>
+      <h2 id="pain-title">關心自己和家人的健康，最難的不是生病，<span class="mark">是日常</span>。</h2>
+    </div>
+
+    <p class="swipe-hint" aria-hidden="true">左右滑動，看 5 個日常 →</p>
+    <div class="pain-board" tabindex="0" role="region" aria-label="5 個照顧日常的困擾，可左右滑動">
+
+      <!-- 痛點 1 -->
+      <figure class="polaroid p1 reveal">
+        <div class="pic"><picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="images/pain-record-still.webp">
+          <img src="images/pain-record.webp" width="800" height="600" loading="lazy"
+          alt="爺爺戴著血壓計袖帶，手上拿著紀錄卡，桌上有血氧機、體溫計，表情疑惑地不知道該記哪一項"></picture></div>
+        <figcaption><span class="tag">記錄麻煩，容易中斷</span>
+          <blockquote>「量了血壓寫在紙上，寫了三天就忘了。」</blockquote></figcaption>
+      </figure>
+
+      <!-- 痛點 2 -->
+      <figure class="polaroid p2 reveal">
+        <div class="pic"><picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="images/pain-visit-still.webp">
+          <img src="images/pain-visit.webp" width="800" height="600" loading="lazy"
+          alt="孫女與爺爺面對攤滿桌面的回診單與記事本，牆上日曆圈了好幾個日期，兩人都一臉慌張"></picture></div>
+        <figcaption><span class="tag">忘記回診</span>
+          <blockquote>「三個月一次的回診，等想起來已經過了。」</blockquote></figcaption>
+      </figure>
+
+      <!-- 痛點 3 -->
+      <figure class="polaroid p3 reveal">
+        <div class="pic"><picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="images/pain-summary-still.webp">
+          <img src="images/pain-summary.webp" width="800" height="600" loading="lazy"
+          alt="診間裡醫師詢問近況，爺爺抓著頭想不起血壓與回診日期，孫女在一旁著急"></picture></div>
+        <figcaption><span class="tag">看診時說不清楚近況</span>
+          <blockquote>「醫師問最近血壓怎樣，只能說還好吧。」</blockquote></figcaption>
+      </figure>
+
+      <!-- 痛點 4 -->
+      <figure class="polaroid p4 reveal">
+        <div class="pic"><picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="images/pain-orders-still.webp">
+          <img src="images/pain-orders.webp" width="800" height="600" loading="lazy"
+          alt="爺爺和孫女走出醫院大門，對話框裡只剩省略號和問號，想不起醫師剛剛交代了什麼"></picture></div>
+        <figcaption><span class="tag">醫囑聽完就忘</span>
+          <blockquote>「走出診間才想不起來，醫生剛剛交代了什麼。」</blockquote></figcaption>
+      </figure>
+
+      <!-- 痛點 5 -->
+      <figure class="polaroid p5 reveal">
+        <div class="pic"><picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="images/pain-family-still.webp">
+          <img src="images/pain-family.webp" width="800" height="600" loading="lazy"
+          alt="孫女在外地看著手機，手機裡是和爺爺的聊天室，她傳了訊息問「爺爺，今天回診還順利嗎？」"></picture></div>
+        <figcaption><span class="tag">家人不在身邊，不知道狀況</span>
+          <blockquote>「人在外地，只能每天打電話問。」</blockquote></figcaption>
+      </figure>
+
+    </div>
+    <p class="pain-note reveal">以上是日常生活中常見的情境，用來說明處境，不是特定使用者的真實引述。</p>
+  </div>
+</section>
+
+<!-- ===== 第 3 屏：源起（我們的故事 #story）— 一封寫給你的信 ===== -->
+<section class="story" id="story" aria-labelledby="story-title">
+  <svg class="wave" viewBox="0 0 1440 44" preserveAspectRatio="none" aria-hidden="true"><path d="M0 44 V26 C 260 4, 520 40, 760 18 S 1180 6, 1440 22 V44 Z" fill="#F8F0E8"/></svg>
+  <div class="wrap story-grid">
+    <div class="letter reveal">
+      <span class="tag">源起</span>
+      <h2 id="story-title">我們為什麼做陪你久久</h2>
+      <blockquote>
+        陪你久久來自我們的日常。常忘了吃藥、忘記量測；回診時間錯過才想起來；看診時，還要翻找紀錄才說得清病史，有時緊張，甚至說不明白、忘記問問題。
+        我們想，如果這些事能集中在日常就會用的 LINE 裡，照顧能不能更舒心。
+      </blockquote>
+
+      <details id="story-full">
+        <summary>讀完整故事</summary>
+        <div class="chapters">
+
+          <div class="chap">
+            <span class="num">01</span>
+            <h3>照護路上常見的事</h3>
+            <ul>
+              <li>忘記吃藥</li>
+              <li>慢箋、回診常忘記</li>
+              <li>回診時間可能分散在不同醫院、不同家人</li>
+              <li>看診時，說不清楚病史，忘記問問題</li>
+              <li>...</li>
+            </ul>
+          </div>
+
+          <div class="chap">
+            <span class="num">03</span>
+            <h3>不是沒有工具</h3>
+            <p>不是沒有工具，而是太多工具<br>導致資訊分散，個人、家人之間沒有一個共同的地方。</p>
+          </div>
+
+          <div class="chap">
+            <span class="num">04</span>
+            <h3>陪你久久</h3>
+            <p>把日常照護瑣事，集中在本來就會用的 LINE 裡，讓全家在同一個地方一起照顧。</p>
+          </div>
+
+          <div class="chap">
+            <span class="num">05</span>
+            <h3>長長久久</h3>
+            <p>陪著自己，也陪著照顧他們的家人，走得長長久久。</p>
+          </div>
+
+          <div class="chap">
+            <span class="num">→</span>
+            <h3>接下來想做的事</h3>
+            <ul>
+              <li>慢箋領藥提醒<span class="tag soon">規劃中</span></li>
+              <li>檢查報告整理<span class="tag soon">規劃中</span></li>
+              <li>多人綁定<span class="tag soon">規劃中</span></li>
+            </ul>
+          </div>
+
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 第 4 屏：解法（五個卡關點，一個 LINE 帳號解決）— 同時是 #features ===== -->
+<section class="solve" id="features" aria-labelledby="solve-title">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag kicker">怎麼解決</span>
+      <h2 id="solve-title">照護卡關點，<span style="white-space:nowrap">一個 LINE 帳號解決。</span></h2>
+      <p>點選你遇到的卡關點，看陪你久久怎麼幫上忙。</p>
+    </div>
+
+    <!-- 5 個卡關點（分頁）：沒有 JavaScript 時，5 個解法會全部展開 -->
+    <div class="solve-tabs reveal" id="solve-tabs">
+      <div class="tablist" role="tablist" aria-label="五個卡關點" aria-orientation="horizontal">
+        <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true">記錄麻煩，容易中斷</button>
+        <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">忘記回診</button>
+        <button class="tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">看診時說不清楚近況</button>
+        <button class="tab" role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false" tabindex="-1">家人不在身邊，不知道狀況</button>
+        <button class="tab" role="tab" id="tab-5" aria-controls="panel-5" aria-selected="false" tabindex="-1">醫囑聽完就忘<span class="tag soon">規劃中</span></button>
+      </div>
+
+      <div class="panels">
+        <!-- 解法 1：記錄 -->
+        <div class="panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1">
+          <p class="was"><span>你可能遇到</span>量了血壓寫在紙上，寫了三天就忘了。</p>
+          <div class="now">
+            <figure class="contain"><img src="images/solution-record.webp" width="800" height="800" loading="lazy"
+              alt="LINE 訊息畫面：綠色藥罐與打勾圖示，標題「用藥打卡完成」，下方標示為示範記錄"></figure>
+            <div class="txt">
+              <h3>點一下就打完卡</h3>
+              <p>點「用藥打卡」一鍵完成；<br>點「每日記錄」，一頁填完要追蹤的項目。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 解法 2：回診提醒 -->
+        <div class="panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2">
+          <p class="was"><span>你可能遇到</span>三個月一次的回診，等想起來已經過了。</p>
+          <div class="now">
+            <figure><img src="images/solution-reminder.webp" width="1000" height="750" loading="lazy"
+              alt="爺爺開心地指著手機上的回診日期，孫女在旁高興；上方圓框裡爸爸和媽媽也收到回診提醒（日期為示範）"></figure>
+            <div class="txt">
+              <h3>全家一起收到提醒</h3>
+              <p>回診前 LINE 通知提醒全家。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 解法 3：就診摘要 -->
+        <div class="panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3">
+          <p class="was"><span>你可能遇到</span>醫師問最近血壓怎樣，只能說還好吧。</p>
+          <div class="now">
+            <figure><img src="images/solution-summary.webp" width="1000" height="750" loading="lazy"
+              alt="診間裡爺爺開心地向醫師出示手機上的 LINE 健康儀表板，畫面有血壓、服藥與回診日期（內容為示範）"></figure>
+            <div class="txt">
+              <h3>看診時把近況說清楚</h3>
+              <p>就診摘要，看診時用手機出示，或看診前列印出來。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 解法 4：全家一起 -->
+        <div class="panel" role="tabpanel" id="panel-4" aria-labelledby="tab-4">
+          <p class="was"><span>你可能遇到</span>人在外地，只能每天打電話問。</p>
+          <div class="now">
+            <figure><img src="images/solution-family.webp" width="1200" height="675" loading="lazy"
+              alt="四格插畫：爺爺在 LINE 上點確認，爸爸、媽媽和孫女的手機同時收到「爺爺已服藥」"></figure>
+            <div class="txt">
+              <h3>同一個照護家庭，一起看</h3>
+              <p>同一個照護家庭共看記錄、共收提醒，家人也可以幫忙代記。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 解法 5：醫囑（規劃中，排在最後） -->
+        <div class="panel" role="tabpanel" id="panel-5" aria-labelledby="tab-5">
+          <p class="was"><span>你可能遇到</span>走出診間才想不起來，醫生剛剛交代了什麼。</p>
+          <div class="now">
+            <figure>
+              <div class="compose-orders">
+                <img src="images/solution-orders-bubble.webp" width="480" height="340" loading="lazy" alt="">
+                <img src="images/solution-orders-paper.webp" width="420" height="420" loading="lazy" alt="">
+              </div>
+            </figure>
+            <div class="txt">
+              <h3>醫生說的話，先記下來<span class="tag soon">規劃中</span></h3>
+              <p>看診後打字記下醫囑，AI 幫你整理成條列；想問醫師的問題，也能先記在回診卡上。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</main>
+
+<!-- 手機版底部固定按鈕 -->
+<div class="sticky-line"><a class="btn js-line" data-loc="sticky" href="#">加入 LINE</a></div>
+
+<!-- 電腦版「加入 LINE」QR Code 彈窗 -->
+<dialog id="qr-dialog" aria-labelledby="qr-title" style="border:2px solid var(--deep);border-radius:28px;padding:28px;max-width:360px;text-align:center;color:var(--deep);background:#fff">
+  <h2 id="qr-title" style="font-size:24px">用手機掃描加入</h2>
+  <img src="images/line-qr.png" width="180" height="180" style="margin:0 auto 12px;width:200px;height:200px;image-rendering:pixelated" alt="陪你久久 LINE 官方帳號的加好友 QR Code">
+  <p style="font-size:16px">打開 LINE，掃描上方 QR Code 就能加好友。</p>
+  <button class="btn" type="button" id="qr-close">關閉</button>
+</dialog>
+
+<!-- Cookie 同意：按「同意」後才載入 GA4 -->
+<div id="cookie" role="region" aria-label="Cookie 同意" hidden
+     style="position:fixed;left:12px;right:12px;bottom:96px;z-index:60;background:#fff;border:2px solid var(--deep);border-radius:24px;padding:16px 20px;max-width:560px;margin-inline:auto;font-size:16px;line-height:1.6">
+  <p style="margin:0 0 12px">我們使用 Cookie 統計匿名的瀏覽人數，幫助網站變得更好。你可以選擇是否同意。</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn" type="button" id="cookie-yes" style="min-height:48px;padding:0 22px">同意</button>
+    <button class="btn btn-ghost" type="button" id="cookie-no" style="min-height:48px;padding:0 22px">不同意</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   設定區（要換網址、ID 只改這裡）
+   ============================================================ */
+var CONFIG = {
+  LINE_URL: "https://lin.ee/pgEDr9J",   // LINE 加好友網址（短網址不可加參數）
+  GA4_ID: "【待填：GA4 ID】"              // 填入後，使用者按「同意」才會載入 GA4
+};
+
+/* ---------- GA4：同意後才載入 ---------- */
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+var gaReady = false;
+function loadGA(){
+  if (gaReady || CONFIG.GA4_ID.indexOf("待填") > -1) return;
+  gaReady = true;
+  var s = document.createElement("script");
+  s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + CONFIG.GA4_ID;
+  document.head.appendChild(s);
+  gtag("js", new Date()); gtag("config", CONFIG.GA4_ID);
+}
+function track(name, params){ if (gaReady) gtag("event", name, params || {}); }
+
+/* ---------- Cookie 同意 ---------- */
+(function(){
+  var box = document.getElementById("cookie"), KEY = "pnjj_cookie";
+  var v = null; try { v = localStorage.getItem(KEY); } catch(e){}
+  if (v === "yes") loadGA(); else if (v !== "no") box.hidden = false;
+  function set(val){ try { localStorage.setItem(KEY, val); } catch(e){} box.hidden = true; if (val === "yes") loadGA(); }
+  document.getElementById("cookie-yes").onclick = function(){ set("yes"); };
+  document.getElementById("cookie-no").onclick  = function(){ set("no"); };
+})();
+
+/* ---------- 加入 LINE：手機直接開、電腦彈出 QR Code ---------- */
+(function(){
+  var dlg = document.getElementById("qr-dialog");
+  var isDesktop = function(){ return window.matchMedia("(min-width:768px)").matches && window.matchMedia("(pointer:fine)").matches; };
+  document.querySelectorAll(".js-line").forEach(function(a){
+    a.href = CONFIG.LINE_URL; a.target = "_blank"; a.rel = "noopener";
+    a.addEventListener("click", function(e){
+      track("line_add_click", { location: a.getAttribute("data-loc") });
+      if (isDesktop() && dlg.showModal){ e.preventDefault(); dlg.showModal(); }
+    });
+  });
+  document.getElementById("qr-close").onclick = function(){ dlg.close(); };
+  dlg.addEventListener("click", function(e){ if (e.target === dlg) dlg.close(); });
+})();
+
+/* ---------- 手機選單收合 ---------- */
+(function(){
+  var btn = document.querySelector(".menu-btn"), nav = document.getElementById("mobile-nav");
+  btn.addEventListener("click", function(){
+    var open = nav.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open); btn.setAttribute("aria-label", open ? "關閉選單" : "開啟選單");
+  });
+  nav.addEventListener("click", function(e){ if (e.target.tagName === "A"){ nav.classList.remove("open"); btn.setAttribute("aria-expanded","false"); } });
+})();
+
+/* ---------- 捲動時標示目前區塊、淡入、痛點進入畫面事件 ---------- */
+(function(){
+  var links = document.querySelectorAll(".nav a");
+  var map = {};
+  links.forEach(function(a){ map[a.getAttribute("href").slice(1)] = a; });
+  if ("IntersectionObserver" in window){
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting && map[en.target.id]){
+          links.forEach(function(l){ l.classList.remove("active"); l.removeAttribute("aria-current"); });
+          map[en.target.id].classList.add("active"); map[en.target.id].setAttribute("aria-current","true");
+        }
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    Object.keys(map).forEach(function(id){ var el = document.getElementById(id); if (el) spy.observe(el); });
+
+    var fade = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add("in"); fade.unobserve(en.target); } });
+    }, { threshold: .12 });
+    document.querySelectorAll(".reveal").forEach(function(el){ if (!el.classList.contains("in")) fade.observe(el); });
+
+    var pv = new IntersectionObserver(function(entries){
+      if (entries[0].isIntersecting){ track("painpoint_view"); pv.disconnect(); }
+    }, { threshold: .2 });
+    pv.observe(document.getElementById("painpoint"));
+  } else {
+    document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); });
+  }
+})();
+
+/* ---------- 第 4 屏：卡關點分頁（點選、方向鍵切換） ---------- */
+(function(){
+  var box = document.getElementById("solve-tabs");
+  var tabs = [].slice.call(box.querySelectorAll(".tab"));
+  var panels = [].slice.call(box.querySelectorAll(".panel"));
+  function show(i, focus){
+    tabs.forEach(function(t, k){
+      var on = k === i;
+      t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1;
+      panels[k].hidden = !on;
+    });
+    if (focus) tabs[i].focus();
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener("click", function(){ show(i); });
+    t.addEventListener("keydown", function(e){
+      var n = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") n = (i + 1) % tabs.length;
+      else if (e.key === "ArrowLeft" || e.key === "ArrowUp") n = (i + tabs.length - 1) % tabs.length;
+      else if (e.key === "Home") n = 0; else if (e.key === "End") n = tabs.length - 1;
+      if (n !== null){ e.preventDefault(); show(n, true); }
+    });
+  });
+  show(0);
+})();
+
+/* ---------- 網址帶 #story-full 時，自動展開完整故事 ---------- */
+if (location.hash === "#story-full"){ document.getElementById("story-full").open = true; }
+</script>
+</body>
+</html>
