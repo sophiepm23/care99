@@ -592,7 +592,7 @@ section{scroll-margin-top:calc(var(--head-h) + 12px)}
   <button class="btn" type="button" id="qr-close">關閉</button>
 </dialog>
 
-<!-- Cookie 同意：按「同意」後才載入 GA4 -->
+<!-- Cookie 同意視窗：這一版暫不顯示（要恢復時移除這組註解，並恢復下方 JS 的註解）
 <div id="cookie" role="region" aria-label="Cookie 同意" hidden
      style="position:fixed;left:12px;right:12px;bottom:96px;z-index:60;background:#fff;border:2px solid var(--deep);border-radius:24px;padding:16px 20px;max-width:560px;margin-inline:auto;font-size:16px;line-height:1.6">
   <p style="margin:0 0 12px">我們使用 Cookie 統計匿名的瀏覽人數，幫助網站變得更好。你可以選擇是否同意。</p>
@@ -601,6 +601,7 @@ section{scroll-margin-top:calc(var(--head-h) + 12px)}
     <button class="btn btn-ghost" type="button" id="cookie-no" style="min-height:48px;padding:0 22px">不同意</button>
   </div>
 </div>
+-->
 
 <script>
 /* ============================================================
@@ -625,7 +626,7 @@ function loadGA(){
 }
 function track(name, params){ if (gaReady) gtag("event", name, params || {}); }
 
-/* ---------- Cookie 同意 ---------- */
+/* ---------- Cookie 同意（這一版暫不顯示，已註解） ----------
 (function(){
   var box = document.getElementById("cookie"), KEY = "pnjj_cookie";
   var v = null; try { v = localStorage.getItem(KEY); } catch(e){}
@@ -634,6 +635,7 @@ function track(name, params){ if (gaReady) gtag("event", name, params || {}); }
   document.getElementById("cookie-yes").onclick = function(){ set("yes"); };
   document.getElementById("cookie-no").onclick  = function(){ set("no"); };
 })();
+---------- Cookie 同意 結束 ---------- */
 
 /* ---------- 加入 LINE：手機直接開、電腦彈出 QR Code ---------- */
 (function(){
